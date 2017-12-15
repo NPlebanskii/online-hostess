@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="eng">
+<head>
+	<meta charset="utf-8">
+	<title>Tables</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=yes">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+	<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.js"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+</head>
+
+<body>
+	<div class="card-deck-wrapper">
+		{% import 'macros.html' as macros %}
+		<div class="card-deck">
+			{% if tables %}
+				{% for table in tables %}
+					{{macros.gen_table_card(table)}}
+				{% endfor %}
+			{% else %}
+				<h3>Error. Please, contact the administrator.</h3>
+			{% endif %}
+		</div>
+	</div>
+	
+	<!-- Modal -->
+	<div class="modal fade" id="reservationModal" tabindex="-1" role="dialog" aria-labelledby="reservationModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<h5 class="modal-title" id="reservationModalLabel">New message</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+		  </div>
+		  <div class="modal-body">
+			<form method="post">
+			  <input type="text" style="display:none;" class="form-control" id="table-id" name="table-id" value="">
+			  <div class="form-group">
+				<label for="recipient-name" class="col-form-label">Ім'я:</label>
+				<input type="text" class="form-control" id="recipient-name" name="recipient-name">
+			  </div>
+			  <div class="form-group">
+				<label for="recipient-surname" class="col-form-label">Прізвище:</label>
+				<input type="text" class="form-control" id="recipient-surname" name="recipient-surname">
+			  </div>
+			  <div class="form-group">
+				<label for="userEmail">Email адреса:</label>
+				<input type="email" class="form-control" id="userEmail" placeholder="Введіть email" name="userEmail">
+			  </div>
+			  <div class="form-group">
+				<label for="comment" class="col-form-label">Коментар до резервування:</label>
+				<textarea class="form-control" id="comment" name="comment"></textarea>
+			  </div>
+			  <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрити</button>
+			  <button type="submit" class="btn btn-primary">Зарезервувати</button>
+			</form>
+		  </div>
+		</div>
+	  </div>
+	</div>
+	
+	<script>
+	$('#reservationModal').on('show.bs.modal', function (event) {
+	  var tableId = $(event.relatedTarget).attr('data-tableId') // Extract info from data-tableId attributes
+	  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+	  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+	  var modal = $(this)
+	  $('#table-id').val(tableId)
+	  modal.find('.modal-title').text('Резервування столика ' + $('#' + tableId).find('.card-title').text())
+	})
+	</script>
+</body>
+</html>

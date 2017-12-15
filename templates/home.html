@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="eng">
+<head>
+	<meta charset="utf-8">
+	<title>Home Page</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=yes">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
+	<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+</head>
+
+<body>
+	<header class="header" style="background-color:#bd1e2e;">
+		<div class="container">
+			<h1 style="font-family:'Lucida Grande', Times, serif;">ONLINE HOSTESS</h1>
+			<h2>
+			<small>з нами краще</small>
+			</h2>
+		</div>
+	</header>
+	<nav class="page-navigation" style="background-color:#bd1e2e;">
+		<div class="container">
+			<ul>
+				<li><a href="#">Бронювання</a></li>
+				<li><a href="#">Про нас</a></li>
+			</ul>
+			
+			<form action="#" class="login">
+				<input type="text" placeholder="вхід"  required>
+				<input type="password" placeholder="пароль"  required>
+				<input type="submit" placeholder="ввійти" value="Увійти">
+			</form>
+			
+		</div>
+	</nav>
+	
+	{% import 'macros.html' as macros %}
+	<div class="card-deck">
+		{% if establishmentsRows %}
+			{% for establishmentRow in establishmentsRows %}
+				<div class="row">
+					{% for establishment in establishmentRow %}
+						<div class="col-sm-3">
+							{{macros.gen_establishment_card(establishment)}}
+						</div>
+					{% endfor %}
+				</div>
+			{% endfor %}
+		{% else %}
+			<h3>Error. Please, contact the administrator.</h3>
+		{% endif %}
+	</div>
+	
+	<footer class="footer" style="background-color:#bd1e2e;">
+		<div class="container">
+			<p> Твоя Яночка* </p>
+		</div>
+	</footer>
+</body>
+</html>

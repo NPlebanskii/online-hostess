@@ -1,0 +1,24 @@
+{% macro gen_establishment_card(item) %}
+	<div class="card">
+		<img class="card-img-top" src="{{item.img_url}}" alt="{{item.name}}">
+		<div class="card-body">
+			<h4 class="card-title">{{item.name}}</h4>
+			<p class="card-text">{{item.description}}</p>
+			<a href="establishment-tables/{{item.id}}" class="btn text-white" style="background-color:#f9283a;">Показати столики</a>
+		</div>
+		<div class="card-footer">
+			<small class="text-muted">{{item.location}}</small>
+		</div>
+	</div>
+{% endmacro %}
+
+{% macro gen_table_card(item) %}
+	<div class="card w-25 {% if item.status == 'reserved' %} bg-danger {% else %} bg-success {% endif %}">
+		<div class="card-body" id="{{item.id}}">
+			<h1 class="card-title">#{{item.number}}</h1>
+			{% if item.status == 'free' %}
+			<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#reservationModal" data-tableId="{{item.id}}">Зарезервувати...</button>
+			{% endif %}
+		</div>
+	</div>
+{% endmacro %}
