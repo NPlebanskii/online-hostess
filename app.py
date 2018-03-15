@@ -1,16 +1,16 @@
 from flask import Flask, jsonify, render_template, flash, request, url_for, redirect
 import sqlite3 as sql
-from db_utils import *
+from data_base_processor import *
 import uuid
 from table_types import TableType
 
 app = Flask(__name__)
-init_db()
+dbp = DataBaseProcessor()
 
 @app.route('/api/v0/home', methods=['GET'])
 def get_establishments():
     result = {}
-    rows = read_all_rows_from_table(TableType.ESTABLISHMENT)
+    rows = dbp.read_all_rows_from_table(TableType.ESTABLISHMENT)
     if not (rows is None):
         colNumber = 4
         i = 0
@@ -46,7 +46,7 @@ def get_establishment_tables(id):
             order['email'] = request.form['userEmail']
             order['comment'] = request.form['comment']
             order['tableId'] = request.form['table-id']
-            update_table_status(order['tableId'], 'reserved', order['email'])
+            dbp.update_table_status(order['tableId'], 'reserved', order['email'])
             print(order)
             error = False
             if error:
@@ -54,7 +54,7 @@ def get_establishment_tables(id):
             else:
                 return redirect(url_for('get_establishments'))
         elif request.method == 'GET':
-            tables = read_establishment_tables(id)
+            tables = dbp.read_establishment_tables(id)
             return render_template("tables.html", tables=tables)
     except Exception as e:
         print(e)
@@ -62,7 +62,7 @@ def get_establishment_tables(id):
 @app.route('/api/v0/tables', methods=['GET'])
 def get_tables():
     result = {}
-    rows = read_all_rows_from_table(TableType.TABLE)
+    rows = dbp.read_all_rows_from_table(TableType.TABLE)
     if not (rows is None):
         result['tables'] = rows
     else:
@@ -72,7 +72,7 @@ def get_tables():
 @app.route('/api/v0/tables/<id>', methods=['GET'])
 def get_table_by_id(id):
     result = {}
-    row = read_row_from_table_by_id(TableType.TABLE, id)
+    row = dbp.read_row_from_table_by_id(TableType.TABLE, id)
     if not (row is None):
         result['table'] = row
     else:
