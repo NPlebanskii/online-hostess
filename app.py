@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template, flash, request, url_for, redirect
+from flask import Flask, jsonify, render_template, flash, request, url_for, redirect, json
 import sqlite3 as sql
 from data_base_processor import *
 import uuid
@@ -6,6 +6,37 @@ from table_types import TableType
 
 app = Flask(__name__)
 dbp = DataBaseProcessor()
+
+@app.route('/api/v0/session', methods=['GET'])
+def get_session_token():
+    result = {}
+    userTypeMap = {
+        'user': True,
+        'admin': True,
+        '__secret__': True
+    }
+    status = 200
+
+    try:
+        userType = request.args['user_type']
+    except KeyError as err:
+        result['error'] = 'Provided wrong params.'
+        status = 400
+    except Exception as e:
+        result['error'] = str(e)
+        status = 500
+    else:
+        if not (userTypeMap.get(userType) is None):
+            result['token'] = uuid.uuid4()
+        else:
+            status = 400
+            result['error'] = 'Unknown user_type'
+    finally:
+        return app.response_class(
+            response = json.dumps(result),
+            status = status,
+            mimetype = 'application/json'
+        )
 
 @app.route('/api/v0/home', methods=['GET'])
 def get_establishments():
