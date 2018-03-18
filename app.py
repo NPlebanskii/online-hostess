@@ -112,3 +112,12 @@ def get_table_by_id(id):
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=False)
+
+@app.errorhandler(404)
+def not_found(error):
+    result = { 'error': 'Not found.' }
+    return app.response_class(
+        response = json.dumps(result),
+        status = 404,
+        mimetype = 'application/json'
+    )
