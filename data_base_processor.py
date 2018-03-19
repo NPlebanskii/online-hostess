@@ -142,6 +142,7 @@ class DataBaseProcessor:
 		try:
 			tableConfig = self.get_table_config(tableType)
 			fields = tableConfig['fields']
+			formed_rows = []
 			for row in rows:
 				formed_rows.append(self.form_row(row, fields))
 		except:
