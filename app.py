@@ -97,7 +97,7 @@ def get_tables():
     if not (rows is None):
         result['tables'] = rows
     else:
-        result['error'] = "Not found table with id " + id
+        result['error'] = 'Tables not found'
     return jsonify(result)
 
 @app.route('/api/v0/tables/<id>', methods=['GET'])
