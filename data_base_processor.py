@@ -21,7 +21,7 @@ class DataBaseProcessor:
 
 	def init_db(self):
 		try:
-			self.connection = sql.connect(self.dbUrl)
+			self.connection = sql.connect(self.dbUrl, check_same_thread=False)
 			self.cursor = self.connection.cursor()
 			log.debug('Successfully inited DB.')
 		except Exception as e:
@@ -138,10 +138,11 @@ class DataBaseProcessor:
 		return result
 
 	def form_rows_dict(self, rows, tableType):
-		formed_rows = []
+		formed_rows = None
 		try:
 			tableConfig = self.get_table_config(tableType)
 			fields = tableConfig['fields']
+			formed_rows = []
 			for row in rows:
 				formed_rows.append(self.form_row(row, fields))
 		except:
@@ -189,7 +190,7 @@ class DataBaseProcessor:
 		return result
 
 	def read_establishment_tables(self, id):
-		result = []
+		result = None
 		tableType = TableType.TABLE
 		tableConfig = self.get_table_config(tableType)
 		try:

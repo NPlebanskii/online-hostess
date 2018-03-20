@@ -6,5 +6,6 @@ REM activating virtual environment
 venv\Scripts\activate
 REM installing Flask to run local server
 pip install Flask
+pip install flask-restful
 REM updating setuptools to the latest version
 pip install --upgrade pip setuptools
