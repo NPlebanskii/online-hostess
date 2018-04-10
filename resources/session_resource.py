@@ -9,6 +9,7 @@ class SessionResource(Resource):
 		self.__parser.add_argument('user_type', required = True, help = 'user_type can not be converted', location='args')
 
 	def get(self):
+		from app.models import Session
 		userTypeMap = {
 			'user': True,
 			'admin': True,
@@ -26,7 +27,10 @@ class SessionResource(Resource):
 			status = 500
 		else:
 			if not (userTypeMap.get(userType) is None):
-				result['token'] = str(uuid.uuid4())
+				sessionUuid = str(uuid.uuid4())
+				session = Session(uuid=sessionUuid, user_type=userType)
+				session.save()
+				result['token'] = sessionUuid
 			else:
 				status = 400
 				result['error'] = 'Unknown user_type'
