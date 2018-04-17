@@ -3,6 +3,7 @@ from parsers.establishment_parser import EstablishmentParser
 
 
 class EstablishmentsResource(Resource):
+    @jwt_required()
     def get(self):
         from app.models import Establishment
         result = {}
