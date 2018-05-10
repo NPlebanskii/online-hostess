@@ -1,35 +1,39 @@
 class EstablishmentParser():
     @staticmethod
-    def parseEstablishments(establishments):
-        parsedEstablishments = []
-        for establishment in establishments:
-            parsedEstablishments.append(EstablishmentParser.
-                                        parseEstablishment(establishment))
-        return parsedEstablishments
+    def parse_establishments(establishments):
+        parsed_establishments = []
+        try:
+            for establishment in establishments:
+                parsed_establishments.append(
+                    EstablishmentParser.parse_establishment(establishment))
+        finally:
+            return parsed_establishments
 
     @staticmethod
-    def parseEstablishment(establishment):
+    def parse_establishment(establishment):
         from parsers.table_parser import TableParser
-        openTime = None
-        endTime = None
-        tables = []
-        if establishment.open_time is not None:
+        try:
             openTime = establishment.open_time.isoformat(
                 timespec='minutes')
-        if establishment.end_time is not None:
+        except Exception:
+            openTime = None
+        try:
             endTime = establishment.end_time.isoformat(
                 timespec='minutes')
-        if establishment.tables is not None:
+        except Exception:
+            endTime = None
+        tables = []
+        try:
             for table in establishment.tables:
-                tables.append(TableParser.parseTable(table))
-        print(tables)
-        return {
-            'id': establishment.id,
-            'name': establishment.name,
-            'description': establishment.description,
-            'location': establishment.location,
-            'open_time': openTime,
-            'end_time': endTime,
-            'img_url': establishment.img_url,
-            'tables': tables
-        }
+                tables.append(TableParser.parse_table(table))
+        finally:
+            return {
+                'id': establishment.id,
+                'name': establishment.name,
+                'description': establishment.description,
+                'location': establishment.location,
+                'open_time': openTime,
+                'end_time': endTime,
+                'img_url': establishment.img_url,
+                'tables': tables
+            }

@@ -12,6 +12,13 @@ class LoginResource(Resource):
             post_data = request.get_json(force=True)
             # check if user already exists
             user = User.query.filter_by(email=post_data.get('email')).first()
+        except Exception as e:
+            result = {
+                'status': 'fail',
+                'message': 'Some error occurred. Please try again.'
+            }
+            status = 500
+        else:
             if not user:
                 status = 404
                 result = {
@@ -34,11 +41,5 @@ class LoginResource(Resource):
                         'status': 'fail',
                         'message': 'Check your credentials.'
                     }
-        except Exception as e:
-            result = {
-                'status': 'fail',
-                'message': 'Some error occurred. Please try again.'
-            }
-            status = 500
         finally:
             return result, status

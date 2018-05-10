@@ -14,7 +14,7 @@ class EstablishmentResource(Resource):
             result['error'] = str(e)
         else:
             if establishment is not None:
-                result = EstablishmentParser.parseEstablishment(establishment)
+                result = EstablishmentParser.parse_establishment(establishment)
             else:
                 status = 404
                 result['error'] = 'Establishment not found'

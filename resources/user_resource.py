@@ -13,16 +13,16 @@ class UserResource(Resource):
             # check if user already exists
             auth_token = ''
             if auth_header:
-                authHeaderList = auth_header.split(" ")
-                if len(authHeaderList) == 2 and authHeaderList[0] == 'Bearer':
-                    auth_token = authHeaderList[1]
+                auth_header_list = auth_header.split(" ")
+                if len(auth_header_list) == 2 and auth_header_list[0] == 'Bearer':
+                    auth_token = auth_header_list[1]
             if auth_token:
                 resp = User.decode_auth_token(auth_token)
                 if not isinstance(resp, str):
                     user = User.query.filter_by(id=resp).first()
                     result = {
                         'status': 'success',
-                        'data': UserParser.parseUser(user)
+                        'data': UserParser.parse_user(user)
                     }
                 else:
                     status = 401

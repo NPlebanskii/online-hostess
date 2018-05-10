@@ -1,21 +1,22 @@
 from flask_restful import Resource
+# from flask-JWT
 from parsers.establishment_parser import EstablishmentParser
 
 
 class EstablishmentsResource(Resource):
-    @jwt_required()
+    # @jwt_required()
     def get(self):
         from app.models import Establishment
         result = {}
         status = 200
         try:
-            establishments = EstablishmentParser.parseEstablishments(
+            establishments = EstablishmentParser.parse_establishments(
                 Establishment.get_all())
         except Exception as e:
             status = 500
             result['error'] = str(e)
         else:
-            if not (establishments is None):
+            if establishments is not None:
                 result['establishments'] = establishments
             else:
                 status = 404

@@ -14,7 +14,7 @@ class TableResource(Resource):
             result['error'] = str(e)
         else:
             if table is not None:
-                result['table'] = TableParser.parseTable(table)
+                result['table'] = TableParser.parse_table(table)
             else:
                 status = 404
                 result['error'] = 'Not found'

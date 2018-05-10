@@ -1,6 +1,6 @@
 class UserParser():
     @staticmethod
-    def parseUser(user):
+    def parse_user(user):
         return {
             'user_id': user.id,
             'email': user.email,

@@ -1,6 +1,6 @@
 class TableParser():
     @staticmethod
-    def parseTable(table):
+    def parse_table(table):
         return {
             'id': table.id,
             'establishment_id': table.establishment_id,
@@ -10,8 +10,10 @@ class TableParser():
         }
 
     @staticmethod
-    def parseTables(tables):
+    def parse_tables(tables):
         parsedTables = []
-        for table in tables:
-            parsedTables.append(TableParser.parseTable(table))
-        return parsedTables
+        try:
+            for table in tables:
+                parsedTables.append(TableParser.parse_table(table))
+        finally:
+            return parsedTables
