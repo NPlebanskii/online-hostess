@@ -12,7 +12,7 @@ class Config(object):
     """ Parent configuration class """
     DEBUG = False
     CSRF_ENABLED = True
-    SECRET = config.get('SECRET')
+    JWT_SECRET_KEY = config.get('SECRET')
     SQLALCHEMY_DATABASE_URI = config.get('DATABASE_URL')
     BCRYPT_LOG_ROUNDS = 13
 
