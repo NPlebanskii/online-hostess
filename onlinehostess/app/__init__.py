@@ -3,14 +3,14 @@ from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 
+from instance.config import app_config
 from resources.establishment_resource import EstablishmentResource
 from resources.establishments_resource import EstablishmentsResource
+from resources.login_resource import LoginResource
+from resources.register_resource import RegisterResource
 from resources.session_resource import SessionResource
 from resources.table_resource import TableResource
-from resources.register_resource import RegisterResource
-from resources.login_resource import LoginResource
 from resources.user_resource import UserResource
-from instance.config import app_config
 
 db = SQLAlchemy()
 app_bcrypt = None

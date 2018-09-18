@@ -2,8 +2,8 @@ config = {
     'SECRET': '}\xd3`C\xf8\xf8\x91F\xd1\xcc\xfc\xeea'
     '\x80\x8eU\x8c\xe6\xefp\xcf\x1b\xb7\xcc',
     'APP_STAGE': 'dev',
-    'DATABASE_URL': 'postgresql://postgres:logan1996n@localhost/flask_api',
-    'DATABASE_URL_TESTING': 'postgresql://postgres:logan1996n@'
+    'DATABASE_URL': 'postgresql://postgres:Logan1996n@localhost/test_db',
+    'DATABASE_URL_TESTING': 'postgresql://postgres:Logan1996n@'
     'localhost/test_db'
 }
 

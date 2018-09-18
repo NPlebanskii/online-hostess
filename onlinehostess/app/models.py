@@ -1,7 +1,9 @@
+import datetime
+
+import jwt
+
 from app import db, app_bcrypt
 from run import app as app_object
-import jwt
-import datetime
 
 
 class Session(db.Model):

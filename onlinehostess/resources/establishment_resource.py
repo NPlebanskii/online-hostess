@@ -1,4 +1,5 @@
 from flask_restful import Resource
+
 from parsers.establishment_parser import EstablishmentParser
 
 
