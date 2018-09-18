@@ -1,9 +1,4 @@
-import datetime
-
-import jwt
-
-from app import db, app_bcrypt
-from run import app as app_object
+from application import db, app_bcrypt, app
 
 
 class Session(db.Model):
@@ -127,10 +122,9 @@ class User(db.Model):
 
     def __init__(self, first_name, email, password, last_name=None,
                  admin=False):
-        from run import app as app_object
         self.email = email
         self.password = app_bcrypt.generate_password_hash(
-            password, app_object.config.get('BCRYPT_LOG_ROUNDS')
+            password, app.config.get('BCRYPT_LOG_ROUNDS')
         ).decode()
         self.admin = admin
         self.first_name = first_name
@@ -151,42 +145,6 @@ class User(db.Model):
 
     def __repr__(self):
         return "<Users: {}>".format(self.email)
-
-    def encode_auth_token(self, user_id):
-        """
-        Generates the Auth Token
-        :return: string
-        """
-        from run import app as app_object
-        try:
-            payload = {
-                'exp': datetime.datetime.utcnow() +
-                datetime.timedelta(days=30),
-                'iat': datetime.datetime.utcnow(),
-                'sub': user_id
-            }
-            return jwt.encode(
-                payload,
-                app_object.config.get('SECRET'),
-                algorithm='HS256'
-            )
-        except Exception as e:
-            return e
-
-    @staticmethod
-    def decode_auth_token(auth_token):
-        """
-        Decodes the auth token
-        :param auth_token:
-        :return: integer|string
-        """
-        try:
-            payload = jwt.decode(auth_token, app_object.config.get('SECRET'))
-            return payload['sub']
-        except jwt.ExpiredSignatureError:
-            return 'Signature expired. Please log in again.'
-        except jwt.InvalidTokenError:
-            return 'Invalid token. Please log in again.'
 
 
 Establishment.tables = db.relationship('Table', order_by=Table.id,
